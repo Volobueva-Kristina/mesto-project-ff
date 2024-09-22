@@ -1,4 +1,4 @@
-const POPUP_DELAY_APPEARANCE_TIME = 200;
+const POPUP_DELAY_APPEARANCE_TIME = 100;
 
 
 export function closePopupOnCloseButton(evt) {

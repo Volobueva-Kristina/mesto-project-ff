@@ -4,10 +4,8 @@ import { initialCards } from './components/cards.js';
 
 import {
   createCard,
-  renderCard,
   removeCard,
-  onLikeButtonHandler,
-  onCardImageHandler
+  onLikeButtonHandler
 } from './components/card.js';
 
 import {
@@ -23,16 +21,30 @@ const profileDescription = profile.querySelector('.profile__description');
 const addButton = profile.querySelector('.profile__add-button');
 const editButton = profile.querySelector('.profile__edit-button');
 
-export const placesContainer = document.querySelector('.places__list');
+const placesContainer = document.querySelector('.places__list');
 
 const popupTypeEditProfileData = document.querySelector('.popup_type_edit');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
-export const popupTypeImage = document.querySelector('.popup_type_image');
+const popupTypeImage = document.querySelector('.popup_type_image');
+
+const nameInput = popupTypeEditProfileData.querySelector('.popup__input_type_name');
+const jobInput = popupTypeEditProfileData.querySelector('.popup__input_type_description');
+
+const popupImage = popupTypeImage.querySelector('.popup__image');
+const popupCaption = popupTypeImage.querySelector('.popup__caption');
+
+const form = popupTypeNewCard.querySelector('.popup__form');
+const inputName = form.querySelector('.popup__input_type_card-name');
+const inputUrl = form.querySelector('.popup__input_type_url');
+
+function onCardImageHandler(link, name) {
+  popupImage.src = link;
+  popupCaption.textContent = name;
+
+  openPopup(popupTypeImage);
+}
 
 function openPopupTypeEditProfileData() {
-  const nameInput = popupTypeEditProfileData.querySelector('.popup__input_type_name');
-  const jobInput = popupTypeEditProfileData.querySelector('.popup__input_type_description');
-
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 
@@ -41,9 +53,6 @@ function openPopupTypeEditProfileData() {
 
 function submitProfileData(evt) {
   evt.preventDefault();
-
-  const nameInput = popupTypeEditProfileData.querySelector('.popup__input_type_name');
-  const jobInput = popupTypeEditProfileData.querySelector('.popup__input_type_description');
 
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
@@ -58,10 +67,6 @@ function openPopupTypeNewCard() {
 function submitNewCard(evt) {
   evt.preventDefault();
 
-  const form = popupTypeNewCard.querySelector('.popup__form');
-  const inputName = form.querySelector('.popup__input_type_card-name');
-  const inputUrl = form.querySelector('.popup__input_type_url');
-
   const cardData = {
     name: inputName.value,
     link: inputUrl.value,
@@ -72,6 +77,10 @@ function submitNewCard(evt) {
   placesContainer.prepend(newCard);
   closePopup(popupTypeNewCard);
   form.reset();
+}
+
+function renderCard(cardElement) {
+  placesContainer.append(cardElement);
 }
 
 initialCards.forEach((element) => {

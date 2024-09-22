@@ -1,9 +1,3 @@
-import {
-  placesContainer,
-  popupTypeImage
-} from '../index.js';
-import { openPopup } from './modal.js';
-
 const cardsTemplate = document.querySelector('#card-template');
 
 export function createCard(CardDate, removeCard, onLikeButtonHandler, onCardImageHandler) {
@@ -31,20 +25,6 @@ export function removeCard(evt) {
   const card = evt.target.closest('.card');
 
   card.remove();
-}
-
-export function renderCard(cardElement) {
-  placesContainer.append(cardElement);
-}
-
-export function onCardImageHandler(link, name) {
-  const popupImage = popupTypeImage.querySelector('.popup__image');
-  const popupCaption = popupTypeImage.querySelector('.popup__caption');
-
-  popupImage.src = link;
-  popupCaption.textContent = name;
-
-  openPopup(popupTypeImage);
 }
 
 export function onLikeButtonHandler(evt) {
