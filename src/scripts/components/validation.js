@@ -14,6 +14,7 @@ const hideInputError = (formElement, inputElement, validationSettings) => {
   errorElement.classList.remove(validationSettings.errorClass);
 
   errorElement.textContent = '';
+  inputElement.setCustomValidity("");
 };
 
 function hasInvalidInput(inputList) {
@@ -60,19 +61,20 @@ const setEventListeners = (formElement, validationSettings) => {
 };
 
 export function enableValidation(validationSettings) {
-  const formList = Array.from(document.querySelectorAll(validationSettings.formSelector));
+  const inputList = Array.from(document.querySelectorAll(validationSettings.formSelector));
 
-  formList.forEach(formElement => {
+  inputList.forEach(formElement => {
     setEventListeners(formElement, validationSettings);
   });
 }
 
 export function resetValidation(formElement, validationSettings) {
-  const formList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
+  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
   const buttonElement = formElement.querySelector(validationSettings.submitButtonSelector);
 
-  formList.forEach(inputElement => {
+  inputList.forEach(inputElement => {
     hideInputError(formElement, inputElement, validationSettings);
-    toggleButtonState(formList, buttonElement, validationSettings);
   });
+
+  toggleButtonState(inputList, buttonElement, validationSettings);
 }

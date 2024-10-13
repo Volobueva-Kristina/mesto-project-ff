@@ -3,7 +3,8 @@ import '../pages/index.css';
 import {
   createCard,
   removeCard,
-  onLikeButtonHandler
+  onLikeButtonHandler,
+  cardHasUserLikes
 } from './components/card.js';
 
 import {
@@ -102,6 +103,16 @@ function openPopupTypeEditProfileData() {
   openPopup(popupTypeEditProfileData);
 }
 
+function deleteCard(cardOnDel, cardId) {
+  requestDeleteCard(cardId)
+  .then(() => {
+      removeCard(cardOnDel);
+  })
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`);
+  })
+}
+
 function submitProfileData(evt) {
   evt.preventDefault();
 
@@ -184,18 +195,8 @@ function renderCard(cardElement) {
   placesContainer.append(cardElement);
 }
 
-function deleteCard(cardOnDel, cardId) {
-  requestDeleteCard(cardId)
-  .then(() => {
-      removeCard(cardOnDel);
-  })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  })
-}
-
 function changeLikeStatus (likeButton, likeCount, userId,) {
-  if(likeButton.classList.contains("card__like-button_is-active")){
+  if(cardHasUserLikes(likeButton)){
     requestdeleteUserLike(userId)
     .then((card) => {
       onLikeButtonHandler(likeButton, likeCount, card.likes.length);
